@@ -1,0 +1,132 @@
+{
+    "name": "Süsskartofeel-Alfuaf mit Pilzen und Lauch",
+    "steps": [
+        [
+            { 
+                "ingredients": [
+                    { "ingredient_id": 1, "value": 400, "unit": "g" },
+                    { "ingredient_id": 2, "value": 200, "unit": "ml" },
+                    { "ingredient_id": 3, "seasoning": true },
+                    { "ingredient_id": 4, "seasoning": true },
+                    { "ingredient_id": 5, "value": 3 }
+                ],
+                "description": "Creme double in einen großen Topf mit der Gemüsebrühe aufkochen, mit Salz und Pfeffer würzen und Thymianzweige zugeben."
+            },
+            { 
+                "ingredients": [
+                    { "ingredient_id": 0, "value": 600, "unit": "g" }
+                ],
+                "description": "Die Süßkartoffeln schälen, halbieren und in dünne Scheiben schneiden."
+            },
+            {
+                "ingredients": [],
+                "description": "Den Topf vom Herd nehmen, die Süßkartoffelscheiben zugeben und mit geschlossenem Deckel in der Flüssigkeit ziehen lassen.",
+                "marker": {
+                    "notice": true
+                }
+            }
+        ],
+        [
+            { 
+                "ingredients": [
+                    { "ingredient_id": 5, "value": 3 },
+                    { "ingredient_id": 6, "value": 250, "unit": "g" },
+                    { "ingredient_id": 7, "value": 1 }
+                ],
+                "description": "Pilze und Lauch putzen und in Scheiben schneiden. Die Blättchen von den übrigen Thymianzweigen abzupfen."
+            },
+            { 
+                "ingredients": [
+                    { "ingredient_id": 8, "value": 1, "unit": "EL" },
+                    { "ingredient_id": 9, "value": 1, "unit": "EL" },
+                    { "ingredient_id": 3, "seasoning": true },
+                    { "ingredient_id": 4, "seasoning": true }
+                ],
+                "description": "Olivenöl und Butter in einer großen Pfanne erhitzen. Die Pilze darin ca. 5 Minuten anbraten.",
+                "marker": {
+                    "time": 300
+                }
+            },
+            {
+                "ingredients": [
+                    { "ingredient_id": 3, "seasoning": true },
+                    { "ingredient_id": 4, "seasoning": true }
+                ],
+                "description": "Mit Salz und Pfeffer würzen und mit den Thymianblättchen und den Thymianblättchen und dem Lauch vermengen."
+            }
+        ],
+        [
+            {
+                "ingredients": [],
+                "description": "Den Backofen auf 190°C vorheizen."
+            },
+            {
+                "ingredients": [
+                    { "ingredient_id": 3, "seasoning": true },
+                    { "ingredient_id": 4, "seasoning": true },
+                    { "ingredient_id": 10, "value": 80, "unit": "g" }
+                ],
+                "description": "Abwechselnd die Süßkartoffeln mit der Pilz-Lauch-Mischung in eine große Auflafform einschichten. Mit Salz und Pfeffer würzen, die übrige Flüssigkeit darübergießen und mit dem Parmesan bestreuen."
+            }
+        ],
+        [
+            {
+                "ingredients": [],
+                "description": "Die FOrm in den Ofen stellen und den Auflag in ca. 30 - 40 Minuten (je nach Dicke der Süßkartoffelscheiben) garen. Wer mag, schaltet zum Schluss die Grullfunktion zu, bs die Oberfläche goldbraun und knusprig ist.",
+                "marker":{
+                    "time": 1800
+                }
+            }
+        ]
+    ]
+}
+
+
+//---
+
+[
+    {
+        "id": 0,
+        "name": "Süßkartoffeln"
+    },
+    {
+        "id": 1,
+        "name": "Creme double"
+    },
+    {
+        "id": 2,
+        "name": "Gemüsebrühe"
+    },
+    {
+        "id": 3,
+        "name": "Salz"
+    },
+    {
+        "id": 4,
+        "name": "Pfeffer"
+    },
+    {
+        "id": 5,
+        "name": "Thymian Zweige"
+    },
+    {
+        "id": 6,
+        "name": "Pilze"
+    },
+    {
+        "id": 7,
+        "name": "Lauch"
+    },
+    {
+        "id": 8,
+        "name": "Olivenöl"
+    },
+    {
+        "id": 9,
+        "name": "Butter"
+    },
+    {
+        "id": 10,
+        "name": "Parmesan"
+    }
+]
