@@ -11,13 +11,8 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
-        <div class="container" id="app">
-            <div class="row">
-                <div class="col s12 m6">
-                    <recipe-component></recipe-component>
-                </div>
-            </div>
-
+        <div id="app">
+            <recipe-component></recipe-component>
         </div>
     </body>
 
