@@ -429,7 +429,7 @@
                     },
                     {
                         "id": 4,
-                        "name": "Pfeffer",
+                        "name": "Pepper",
                         "nutrition": [
                             {
                                 id: 0,
@@ -491,7 +491,7 @@
                     },
                     {
                         "id": 6,
-                        "name": "Pilze",
+                        "name": "Mushrooms",
                         "nutrition": [
                             {
                                 id: 0,
@@ -539,7 +539,7 @@
                     },
                     {
                         "id": 7,
-                        "name": "Lauch",
+                        "name": "Leek",
                         "nutrition": [
                             {
                                 id: 0,
