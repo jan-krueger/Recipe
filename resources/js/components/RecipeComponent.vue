@@ -67,7 +67,7 @@
                                     <ul class="tabs center">
                                         <li class="tab col s3 white-text blue-grey"
                                             :class="{'darken-4': currentEntry.state.tab.index === 0}" @click="currentEntry.state.tab.index = 0">
-                                            Nutrition <i class="fa fa-file-contract"></i></li>
+                                            Information <i class="fa fa-info"></i></li>
                                         <li class="tab col s3 white-text blue-grey"
                                             :class="{'darken-4': currentEntry.state.tab.index === 1}" @click="currentEntry.state.tab.index = 1">
                                             Prepare <i class="fa fa-shopping-basket"></i> </li>
@@ -84,11 +84,23 @@
                                 </div>
                                 <div class="row">
                                     <div class="col s12" v-if="currentEntry.state.tab.index === 0">
-                                        <div class="collection">
-                                            <a v-for="row in entry._nutrition_summary" href="#!" class="collection-item">
-                                                <span class="badge" v-html="_unitHumanReadable(row)"></span>{{ row.name }}
-                                            </a>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <div class="collection">
+                                                    <a v-for="row in entry._nutrition_summary" href="#!" class="collection-item">
+                                                        <span class="badge" v-html="_unitHumanReadable(row)"></span>{{ row.name }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col s6">
+                                                <div class="collection">
+                                                    <a v-for="row in getEnvironmentSummary(entry)" href="#!" class="collection-item">
+                                                        <span class="badge" v-html="_unitHumanReadable(row)"></span>{{ row.name }}
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                     <div class="col s12" v-if="currentEntry.state.tab.index === 1">
                                         <div class="collection">
@@ -221,10 +233,27 @@
                         unit: "NaN",
                     },
                 ],
+                environment: [
+                    {
+                        id: 0,
+                        name: "Energy",
+                        unit: "kWh"
+                    },
+                    {
+                        id: 1,
+                        name: "Water",
+                        unit: "l"
+                    },
+                    {
+                        id: 2,
+                        name: "CO2",
+                        unit: "kg"
+                    }
+                ],
                 ingredients: [
                     {
                         "id": 0,
-                        "name": "Süßkartoffeln",
+                        "name": "Sweet Potato",
                         "nutrition": [
                             {
                                 id: 0,
@@ -274,6 +303,20 @@
                                 id: 13,
                                 value: 0.000024
                             }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 10,
+                            },
+                            {
+                                id: 1,
+                                value: 80,
+                            },
+                            {
+                                id: 2,
+                                value: 10,
+                            }
                         ]
                     },
                     {
@@ -312,11 +355,25 @@
                                 id: 13,
                                 value: 0.000429
                             }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 1,
+                            },
+                            {
+                                id: 1,
+                                value: 3,
+                            },
+                            {
+                                id: 2,
+                                value: 0.5,
+                            }
                         ]
                     },
                     {
                         "id": 2,
-                        "name": "Gemüsebrühe",
+                        "name": "Vegetable Broth",
                         "nutrition": [
                             {
                                 id: 4,
@@ -325,6 +382,20 @@
                             {
                                 id: 7,
                                 value: 0.0083
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 4,
+                            },
+                            {
+                                id: 1,
+                                value: 120,
+                            },
+                            {
+                                id: 2,
+                                value: 4,
                             }
                         ]
                     },
@@ -339,6 +410,20 @@
                             {
                                 id: 9,
                                 value: 0.00008
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 0.3,
+                            },
+                            {
+                                id: 1,
+                                value: 2,
+                            },
+                            {
+                                id: 2,
+                                value: 0.3,
                             }
                         ]
                     },
@@ -369,12 +454,40 @@
                             {
                                 id: 9,
                                 value: 0.01329
+                            },
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 0.12,
+                            },
+                            {
+                                id: 1,
+                                value: 5,
+                            },
+                            {
+                                id: 2,
+                                value: 5,
                             }
                         ]
                     },
                     {
                         "id": 5,
-                        "name": "Thymian Zweige"
+                        "name": "Sprigs of Thyme",
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 3,
+                            },
+                            {
+                                id: 1,
+                                value: 200,
+                            },
+                            {
+                                id: 2,
+                                value: 100,
+                            }
+                        ]
                     },
                     {
                         "id": 6,
@@ -407,6 +520,20 @@
                             {
                                 id: 7,
                                 value: 0.031
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 3,
+                            },
+                            {
+                                id: 1,
+                                value: 340,
+                            },
+                            {
+                                id: 2,
+                                value: 15,
                             }
                         ]
                     },
@@ -462,11 +589,39 @@
                                 id: 13,
                                 value: 0.00012
                             }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 2,
+                            },
+                            {
+                                id: 1,
+                                value: 12,
+                            },
+                            {
+                                id: 2,
+                                value: 3.4,
+                            }
                         ]
                     },
                     {
                         "id": 8,
-                        "name": "Olivenöl"
+                        "name": "Olive Oil",
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 3,
+                            },
+                            {
+                                id: 1,
+                                value: 134,
+                            },
+                            {
+                                id: 2,
+                                value: 50,
+                            }
+                        ]
                     },
                     {
                         "id": 9,
@@ -515,6 +670,20 @@
                             {
                                 id: 12,
                                 value: 0.025
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 0.4,
+                            },
+                            {
+                                id: 1,
+                                value: 80,
+                            },
+                            {
+                                id: 2,
+                                value: 10,
                             }
                         ]
                     },
@@ -567,6 +736,20 @@
                                 value: 0.004
                             },
 
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 12.3,
+                            },
+                            {
+                                id: 1,
+                                value: 443,
+                            },
+                            {
+                                id: 2,
+                                value: 3000,
+                            }
                         ]
                     },
                     {
@@ -592,6 +775,20 @@
                             {
                                 id: 11,
                                 value: 0.000032
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 4,
+                            },
+                            {
+                                id: 1,
+                                value: 34,
+                            },
+                            {
+                                id: 2,
+                                value: 2,
                             }
                         ]
                     },
@@ -1002,6 +1199,18 @@
                 }
                 return null;
             },
+            getEnvironment(id)
+            {
+                id = parseInt(id);
+                for(let key in this.environment)
+                {
+                    if(this.environment[key].id === id)
+                    {
+                        return this.environment[key];
+                    }
+                }
+                return null;
+            },
             getShoppingList(entry)
             {
                 const list = {};
@@ -1048,6 +1257,33 @@
                 {
                     let result = this.__convertUnits(nutrition[key], 'kg');
                     summary[key] = { name: this.getNutrition(key).name, value: result.value, unit: result.unit, _raw_kg_value: nutrition[key], nutrition_id: key };
+                }
+
+                return summary;
+            },
+            getEnvironmentSummary(entry)
+            {
+                const self = this;
+                const environment = {};
+                entry.recipe.steps.forEach(function (a) {
+                    a.forEach(function (b) {
+                        b.ingredients.forEach(function (i) {
+                            let ingredient = self.getIngredient(i.id);
+                            if((typeof i.seasoning === 'undefined' || i.seasoning === false) && ingredient.hasOwnProperty('environment'))
+                            {
+                                ingredient.environment.forEach(function (n) {
+                                    environment[n.id] = n.value * i.value;
+                                });
+                            }
+                        });
+                    })
+                });
+
+                const summary = {};
+                for(let key in environment)
+                {
+                    let env = this.getEnvironment(key);
+                    summary[key] = { name: env.name, value: environment[key], unit: env.unit };
                 }
 
                 return summary;
