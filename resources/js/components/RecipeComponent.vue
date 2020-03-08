@@ -2,77 +2,134 @@
     <div>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Logo</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="sass.html">Sass</a></li>
-                    <li><a href="badges.html">Components</a></li>
-                    <li><a href="collapsible.html">JavaScript</a></li>
-                </ul>
+                <a href="#" class="brand-logo">Recipes <3</a>
             </div>
         </nav>
-
         <div class="container">
             <div class="row">
-                <div class="col offset-m3 m6">
-                    <div class="input-field col s12 m6">
-                        <select class="icons">
-                            <option value="" disabled selected>Choose your option</option>
-                            <option value="" data-icon="images/sample-1.jpg">Omnivore</option>
-                            <option value="" data-icon="images/office.jpg">Pescetarian</option>
-                            <option value="" data-icon="images/yuna.jpg">Vegetarian</option>
-                            <option value="" data-icon="images/yuna.jpg"></option>
-                        </select>
-                        <label>Images in select</label>
+                <div class="col offset-s1 s9">
+                    <div class="input-field col s4">
+                        <input id="search" type="text" v-model="filters.search_text">
+                        <label for="search">Search</label>
                     </div>
+                    <div class="input-field col s4">
+                        <select class="icons" v-model.number="filters.dietary_preference">
+                            <option value="-1">All</option>
+                            <option value="0">Pescetarian</option>
+                            <option value="1">Omnivore</option>
+                            <option value="2">Vegetarian</option>
+                            <option value="3">Vegan</option>
+                        </select>
+                        <label>Dietary Preference</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <select class="icons" v-model.number="filters.season">
+                            <option value="-1" default>None</option>
+                            <option value="0">Spring <i class="fa fa-seedling right right"></i></option>
+                            <option value="1">Summer <i class="fa fa-umbrella-beach right"></i></option>
+                            <option value="2">Autumn <i class="fa fa-cloud-showers-heavy right"></i></option>
+                            <option value="3">Winter <i class="fa fa-snowman right"></i></option>
+                        </select>
+                        <label>Seasonality</label>
+                    </div>
+                </div>
+                <div class="col offset-s1 s9">
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header">Nutrition Filters</div>
+                            <div class="collapsible-body">
+                                <div class="row">
+                                    <div class="col s3 nutrition-slider" v-for="nutrition in this.nutrition">
+                                        <b>{{ nutrition.name }} [{{ nutrition.unit }}]</b>
+                                        <div :id="'nutrition-slider-' + nutrition.id"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m6">
-                    <div v-for="entry in recipes" class="card">
-                        <div class="card-image" v-if="entry.state.card.mode === 0">
-                            <img src="https://static01.nyt.com/images/2017/11/08/dining/08COOKING-POTATO2/08COOKING-POTATO2-articleLarge-v2.jpg">
+                <div class="col s4" v-for="entry in _filtered_recipes">
+                    <div class="card">
+                        <div class="card-image">
+                            <img class="layer" src="https://static01.nyt.com/images/2017/11/08/dining/08COOKING-POTATO2/08COOKING-POTATO2-articleLarge-v2.jpg">
                             <span class="card-title">{{ entry.recipe.name }}</span>
-                            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="fa fa-plus"></i></a>
-                        </div>
-                        <div class="card-content" v-else-if="entry.state.card.mode === 1">
-                            <table>
-                                <tbody>
-                                    <tr v-for="row in getNutritionSummary(entry)">
-                                        <td>{{ row.name }}</td>
-                                        <td>{{ row.value + row.unit }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-action">
-                            <div class="row">
-                                <i class="col s2 fa fa-leaf green-text"></i>
-                                <a class="waves-effect waves-light btn right-aligned" @click="_openModal(entry)">
-                                    <i class="fa fa-cookie"></i>
-                                </a>
-                            </div>
+                            <a class="waves-effect waves-light btn-floating right-aligned halfway-fab" @click="_openModal(entry)">
+                                <i class="fa fa-cookie"></i>
+                            </a>
                         </div>
 
                         <!-- Modal Structure -->
                         <div :id="'modal' + entry.id" class="modal modal-fixed-footer">
                             <div class="modal-content" v-if="currentEntry !== null">
-                                <p>{{ getCurrentStep().description }}</p>
-                                <div class="collection">
-                                    <a v-for="ingredient in getCurrentStep().ingredients" href="#!" class="collection-item">
-                                        <span class="badge" v-html="_unitHumanReadable(ingredient)"></span>{{ getIngredient(ingredient.id).name }}
-                                    </a>
+                                <div>
+                                    <ul class="tabs center">
+                                        <li class="tab col s3 white-text blue-grey"
+                                            :class="{'darken-4': currentEntry.state.tab.index === 0}" @click="currentEntry.state.tab.index = 0">
+                                            Nutrition <i class="fa fa-file-contract"></i></li>
+                                        <li class="tab col s3 white-text blue-grey"
+                                            :class="{'darken-4': currentEntry.state.tab.index === 1}" @click="currentEntry.state.tab.index = 1">
+                                            Prepare <i class="fa fa-shopping-basket"></i> </li>
+                                        <li class="tab col s3 white-text blue-grey"
+                                            :class="{'darken-4': currentEntry.state.tab.index === 2}" @click="currentEntry.state.tab.index = 2">
+                                            Cook</li>
+                                        <li class="tab col s3 white-text blue-grey"
+                                            :class="{'darken-4': currentEntry.state.tab.index === 3}" @click="currentEntry.state.tab.index = 3">
+                                            Enjoy <i class="fa fa-glass-cheers"></i></li>
+                                    </ul>
+                                    <div class="progress red lighten-2" style="margin-top: 0; border-radius: 0;">
+                                        <div class="determinate" :style="{width: _current_recipe_progress + '%'}"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12" v-if="currentEntry.state.tab.index === 0">
+                                        <div class="collection">
+                                            <a v-for="row in entry._nutrition_summary" href="#!" class="collection-item">
+                                                <span class="badge" v-html="_unitHumanReadable(row)"></span>{{ row.name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col s12" v-if="currentEntry.state.tab.index === 1">
+                                        <div class="collection">
+                                            <a v-for="row in entry._shopping_list" href="#!" class="collection-item">
+                                                <label>
+                                                    <input type="checkbox" class="filled-in" />
+                                                    <span>{{ getIngredient(row.id).name }}</span>
+                                                </label>
+                                                <span class="badge" v-html="_unitHumanReadable(row)"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col s12" v-if="currentEntry.state.tab.index === 2">
+                                        <div>
+                                            <p>{{ getCurrentStep().description }}</p>
+                                            <div class="collection">
+                                                <a v-for="ingredient in getCurrentStep().ingredients" href="#!" class="collection-item">
+                                                    <span class="badge" v-html="_unitHumanReadable(ingredient)"></span>{{ getIngredient(ingredient.id).name }}
+                                                </a>
+                                            </div>
+                                            <div v-if="getCurrentStep().image">
+                                                <img :src="getCurrentStep().image" class="responsive-img recipe-image-border recipe-image" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="rate" class="col s12" v-if="currentEntry.state.tab.index === 3">
+                                        <p class="center-align">{{ currentEntry.recipe.finished.description }}</p>
+                                        <img :src="currentEntry.recipe.finished.image" class="responsive-img recipe-image-border recipe-image" alt="">
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer" v-if="currentEntry !== null">
-                                <a class="waves-effect waves-green btn-flat green left" @click="previousStep()">Previous</a>
+                                <a class="waves-effect waves-light btn-flat blue-grey left white-text" @click="previousStep()">Previous</a>
                                 <div class="col">
-                                    <a  class="m2" v-for="alarm in _markers" href="#" @click="setState(alarm.current_step, alarm.current_insider)">
-                                <span class="btn-flat white-text" :class="{ 'blink_me red': alarm.time === 0, 'green': alarm.time > 0 }">
-                                    {{ _timeHumanReadable(alarm.time) }} <i class="fa fa-sm fa-clock"></i>
-                                </span>
+                                    <a class="m2" v-for="alarm in _markers" href="#" @click="setState(alarm.current_step, alarm.current_insider)">
+                                        <span class="btn-flat white-text" :class="{ 'blink_me red': alarm.time === 0, 'green': alarm.time > 0 }">
+                                            {{ _timeHumanReadable(alarm.time) }} <i class="fa fa-sm fa-clock"></i>
+                                        </span>
                                     </a>
                                 </div>
-                                <a class="waves-effect waves-green btn-flat green right" @click="nextStep()">Next</a>
+                                <a class="waves-effect waves-light btn-flat blue-grey right white-text" @click="nextStep()">Next</a>
                             </div>
                         </div>
                     </div>
@@ -88,68 +145,81 @@
         name: "Recipe",
         data: function () {
             return {
+                stupid_fix: 0,
+
+                filters: {
+                    search_text: '',
+                    dietary_preference: -1,
+                    season: -1,
+                    nutrition: {}
+                },
                 currentEntry: null,
                 nutrition: [
                     {
                         id: 0,
-                        name: "Saturated Fat"
+                        name: "Saturated Fat",
+                        unit: "NaN",
                     },
                     {
                         id: 1,
                         name: "Polyunsaturated Fat",
+                        unit: "NaN",
                     },
                     {
                         id: 2,
-                        name: "Monounsaturated Fat"
+                        name: "Monounsaturated Fat",
+                        unit: "NaN",
                     },
                     {
                         id: 3,
                         name: "Cholesterol",
+                        unit: "NaN",
                     },
                     {
                         id: 4,
-                        name: "Sodium"
+                        name: "Sodium",
+                        unit: "NaN",
                     },
                     {
                         id: 5,
-                        name: "Dietary Fiber"
+                        name: "Dietary Fiber",
+                        unit: "NaN",
                     },
                     {
                         id: 6,
-                        name: "Sugars"
+                        name: "Sugars",
+                        unit: "NaN",
                     },
                     {
                         id: 7,
-                        name: "Protein"
+                        name: "Protein",
+                        unit: "NaN",
                     },
                     {
                         id: 8,
-                        name: "Calcium"
+                        name: "Calcium",
+                        unit: "NaN",
                     },
                     {
                         id: 9,
-                        name: "Potassium"
-                    },
-                    {
-                        id: 10,
-                        name: "Alcohol"
+                        name: "Potassium",
+                        unit: "NaN",
                     },
                     {
                         id: 11,
-                        name: "Iron"
+                        name: "Iron",
+                        unit: "NaN",
                     },
                     {
                         id: 12,
-                        name: "Vitamin A"
+                        name: "Vitamin A",
+                        unit: "NaN",
                     },
                     {
                         id: 13,
-                        name: "Vitamin C"
+                        name: "Vitamin B",
+                        unit: "NaN",
                     },
-                    {
-                        id: 14,
-                        name: "Caffeine"
-                    }
                 ],
                 ingredients: [
                     {
@@ -212,7 +282,7 @@
                         "nutrition": [
                             {
                                 id: 0,
-                                value: 450
+                                value: 0.45
                             },
                             {
                                 id: 3,
@@ -454,7 +524,7 @@
                         "nutrition": [
                             {
                                 id: 0,
-                                value: 164.1
+                                value: 0.1641
                             },
                             {
                                 id: 1,
@@ -478,7 +548,7 @@
                             },
                             {
                                 id: 7,
-                                value: 357.5
+                                value: 0.357
                             },
                             {
                                 id: 8,
@@ -495,31 +565,45 @@
                             {
                                 id: 12,
                                 value: 0.004
-                            }
+                            },
+
                         ]
                     }
                 ],
                 recipes: [
                     {
                         id: 0,
+                        properties: {
+                            dietary_preference: 2,
+                            season: [2,3],
+                        },
                         state: {
+                            step_counter: 0,
                             current_step: 0,
                             current_insider: 0,
+                            tab: {
+                                index: 0
+                            },
                             alarm: {
                                 last_update: 0,
                                 list: []
-                            },
-                            card: {
-                                mode: 1
                             }
                         },
                         recipe: {
-                            "name": "Süsskartofeel-Auflauf mit Pilzen und Lauch",
-                            "properties": {
-                                "vegan": true
+                            "name": "Süsskartoffel-Auflauf mit Pilzen und Lauch",
+                            "finished": {
+                                "description": "You did it! - We highly recommend enjoying this food with some high-quality peach juice.",
+                                "image": "images/recipes/0/finished.jpg",
                             },
                             "steps": [
                                 [
+                                    {
+                                        "ingredients": [
+                                            { "id": 0, "value": 0.6, "unit": "kg" }
+                                        ],
+                                        "description": "Die Süßkartoffeln schälen, halbieren und in dünne Scheiben schneiden.",
+                                        "image": "images/recipes/0/0.jpg"
+                                    },
                                     {
                                         "ingredients": [
                                             { "id": 1, "value": 0.4, "unit": "kg" },
@@ -528,13 +612,8 @@
                                             { "id": 4, "seasoning": true },
                                             { "id": 5, "value": 3 }
                                         ],
-                                        "description": "Creme double in einen großen Topf mit der Gemüsebrühe aufkochen, mit Salz und Pfeffer würzen und Thymianzweige zugeben."
-                                    },
-                                    {
-                                        "ingredients": [
-                                            { "id": 0, "value": 0.6, "unit": "kg" }
-                                        ],
-                                        "description": "Die Süßkartoffeln schälen, halbieren und in dünne Scheiben schneiden."
+                                        "description": "Creme double in einen großen Topf mit der Gemüsebrühe aufkochen, mit Salz und Pfeffer würzen und Thymianzweige zugeben.",
+                                        "image": "images/recipes/0/1.jpg"
                                     },
                                     {
                                         "ingredients": [],
@@ -542,7 +621,8 @@
                                         "marker": {
                                             "notice": true,
                                             "time": 150
-                                        }
+                                        },
+                                        "image": "images/recipes/0/2.jpg"
                                     }
                                 ],
                                 [
@@ -552,7 +632,8 @@
                                             { "id": 6, "value": 0.25, "unit": "kg" },
                                             { "id": 7, "value": 0.25, "unit": "kg" }
                                         ],
-                                        "description": "Pilze und Lauch putzen und in Scheiben schneiden. Die Blättchen von den übrigen Thymianzweigen abzupfen."
+                                        "description": "Pilze und Lauch putzen und in Scheiben schneiden. Die Blättchen von den übrigen Thymianzweigen abzupfen.",
+                                        "image": "images/recipes/0/3.jpg"
                                     },
                                     {
                                         "ingredients": [
@@ -571,7 +652,8 @@
                                             { "id": 3, "seasoning": true },
                                             { "id": 4, "seasoning": true }
                                         ],
-                                        "description": "Mit Salz und Pfeffer würzen und mit den Thymianblättchen und den Thymianblättchen und dem Lauch vermengen."
+                                        "description": "Mit Salz und Pfeffer würzen und den Thymianblättchen und dem Lauch vermengen.",
+                                        "image": "images/recipes/0/4.jpg"
                                     }
                                 ],
                                 [
@@ -584,6 +666,117 @@
                                             { "id": 3, "seasoning": true },
                                             { "id": 4, "seasoning": true },
                                             { "id": 10, "value": 0.08, "unit": "kg" }
+                                        ],
+                                        "description": "Abwechselnd die Süßkartoffeln mit der Pilz-Lauch-Mischung in eine große Auflafform einschichten. Mit Salz und Pfeffer würzen, die übrige Flüssigkeit darübergießen und mit dem Parmesan bestreuen."
+                                    }
+                                ],
+                                [
+                                    {
+                                        "ingredients": [],
+                                        "description": "Die Form in den Ofen stellen und den Auflag in ca. 30 - 40 Minuten (je nach Dicke der Süßkartoffelscheiben) garen. Wer mag, schaltet zum Schluss die Grullfunktion zu, bs die Oberfläche goldbraun und knusprig ist.",
+                                        "marker":{
+                                            "time": 1800
+                                        }
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        id: 1,
+                        properties: {
+                            dietary_preference: 2,
+                            season: [2,3],
+                        },
+                        state: {
+                            step_counter: 0,
+                            current_step: 0,
+                            current_insider: 0,
+                            tab: {
+                                index: 0
+                            },
+                            alarm: {
+                                last_update: 0,
+                                list: []
+                            }
+                        },
+                        recipe: {
+                            "name": "Süsskartoffel-Auflauf mit Pilzen und Lauch 2",
+                            "finished": {
+                                "description": "You did it! - We highly recommend enjoying this food with some high-quality peach juice.",
+                                "image": "images/recipes/0/finished.jpg",
+                            },
+                            "steps": [
+                                [
+                                    {
+                                        "ingredients": [
+                                            { "id": 0, "value": 1.2, "unit": "kg" }
+                                        ],
+                                        "description": "Die Süßkartoffeln schälen, halbieren und in dünne Scheiben schneiden.",
+                                        "image": "images/recipes/0/0.jpg"
+                                    },
+                                    {
+                                        "ingredients": [
+                                            { "id": 1, "value": 0.8, "unit": "kg" },
+                                            { "id": 2, "value": 0.4, "unit": "l" },
+                                            { "id": 3, "seasoning": true },
+                                            { "id": 4, "seasoning": true },
+                                            { "id": 5, "value": 6 }
+                                        ],
+                                        "description": "Creme double in einen großen Topf mit der Gemüsebrühe aufkochen, mit Salz und Pfeffer würzen und Thymianzweige zugeben.",
+                                        "image": "images/recipes/0/1.jpg"
+                                    },
+                                    {
+                                        "ingredients": [],
+                                        "description": "Den Topf vom Herd nehmen, die Süßkartoffelscheiben zugeben und mit geschlossenem Deckel in der Flüssigkeit ziehen lassen.",
+                                        "marker": {
+                                            "notice": true,
+                                            "time": 150
+                                        },
+                                        "image": "images/recipes/0/2.jpg"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "ingredients": [
+                                            { "id": 5, "value": 3 },
+                                            { "id": 6, "value": 0.5, "unit": "kg" },
+                                            { "id": 7, "value": 0.5, "unit": "kg" }
+                                        ],
+                                        "description": "Pilze und Lauch putzen und in Scheiben schneiden. Die Blättchen von den übrigen Thymianzweigen abzupfen.",
+                                        "image": "images/recipes/0/3.jpg"
+                                    },
+                                    {
+                                        "ingredients": [
+                                            { "id": 8, "value": 0.022, "unit": "kg" },
+                                            { "id": 9, "value": 0.024, "unit": "kg" },
+                                            { "id": 3, "seasoning": true },
+                                            { "id": 4, "seasoning": true }
+                                        ],
+                                        "description": "Olivenöl und Butter in einer großen Pfanne erhitzen. Die Pilze darin ca. 5 Minuten anbraten.",
+                                        "marker": {
+                                            "time": 120
+                                        }
+                                    },
+                                    {
+                                        "ingredients": [
+                                            { "id": 3, "seasoning": true },
+                                            { "id": 4, "seasoning": true }
+                                        ],
+                                        "description": "Mit Salz und Pfeffer würzen und den Thymianblättchen und dem Lauch vermengen.",
+                                        "image": "images/recipes/0/4.jpg"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "ingredients": [],
+                                        "description": "Den Backofen auf 190°C vorheizen."
+                                    },
+                                    {
+                                        "ingredients": [
+                                            { "id": 3, "seasoning": true },
+                                            { "id": 4, "seasoning": true },
+                                            { "id": 10, "value": 0.16, "unit": "kg" }
                                         ],
                                         "description": "Abwechselnd die Süßkartoffeln mit der Pilz-Lauch-Mischung in eine große Auflafform einschichten. Mit Salz und Pfeffer würzen, die übrige Flüssigkeit darübergießen und mit dem Parmesan bestreuen."
                                     }
@@ -617,6 +810,32 @@
             {
                 const recipe = this.getCurrentStep();
 
+                if(this.currentEntry.state.tab.index === 0)
+                {
+                    this.currentEntry.state.tab.index = 1;
+                    return;
+                }
+                else if(this.currentEntry.state.tab.index === 1)
+                {
+                    this.currentEntry.state.step_counter++;
+                    this.currentEntry.state.tab.index = 2;
+                    return;
+                }
+                else if(this.currentEntry.state.tab.index === 2)
+                {
+                    if(this.currentEntry.state.current_insider === this.currentEntry.recipe.steps[this.currentEntry.state.current_step].length - 1) {
+                        if (this.currentEntry.state.current_step === this.currentEntry.recipe.steps.length - 1) {
+                            this.currentEntry.state.step_counter++;
+                            this.currentEntry.state.tab.index = 3;
+                            return;
+                        }
+                    }
+                }
+                else if(this.currentEntry.state.tab.index === 3)
+                {
+                    return;
+                }
+
                 if(recipe.hasOwnProperty('marker'))
                 {
                     if(recipe.marker.hasOwnProperty('time'))
@@ -645,9 +864,39 @@
                 {
                     this.currentEntry.state.current_insider++;
                 }
+
+                this.currentEntry.state.step_counter++;
+
             },
             previousStep()
             {
+
+                if(this.currentEntry.state.tab.index === 0)
+                {
+                    return;
+                }
+                else if(this.currentEntry.state.tab.index === 1)
+                {
+                    this.currentEntry.state.tab.index = 0;
+                    return;
+                }
+                else if(this.currentEntry.state.tab.index === 2)
+                {
+                    if(this.currentEntry.state.current_insider === 0) {
+                        if (this.currentEntry.state.current_step === 0) {
+                            this.currentEntry.state.step_counter--;
+                            this.currentEntry.state.tab.index = 1;
+                            return;
+                        }
+                    }
+                }
+                else if(this.currentEntry.state.tab.index === 3)
+                {
+                    this.currentEntry.state.step_counter--;
+                    this.currentEntry.state.tab.index = 2;
+                    return;
+                }
+
                 if(this.currentEntry.state.current_insider === 0)
                 {
                     if(this.currentEntry.state.current_step === 0)
@@ -661,6 +910,7 @@
                 {
                     this.currentEntry.state.current_insider--;
                 }
+                this.currentEntry.state.step_counter--;
             },
             getIngredient(id)
             {
@@ -685,6 +935,29 @@
                 }
                 return null;
             },
+            getShoppingList(entry)
+            {
+                const list = {};
+                entry.recipe.steps.forEach(function (a) {
+                    a.forEach(function (b) {
+                        b.ingredients.forEach(function (i) {
+                            if(list.hasOwnProperty(i.id))
+                            {
+                                if(!i.hasOwnProperty('seasoning'))
+                                {
+                                    list[i.id].value += i.value;
+                                }
+                            }
+                            else
+                            {
+                                list[i.id] = i;
+                            }
+                        });
+                    })
+                });
+
+                return list;
+            },
             getNutritionSummary(entry)
             {
                 const self = this;
@@ -707,7 +980,7 @@
                 for(let key in nutrition)
                 {
                     let result = this.__convertUnits(nutrition[key], 'kg');
-                    summary[key] = { name: this.getNutrition(key).name, value: result.value, unit: result.unit };
+                    summary[key] = { name: this.getNutrition(key).name, value: result.value, unit: result.unit, _raw_kg_value: nutrition[key], nutrition_id: key };
                 }
 
                 return summary;
@@ -749,13 +1022,20 @@
                     return '<i class="fa fa-pepper-hot"></i>'
                 }
             },
+            _openNutritionModal()
+            {
+                let instance = window.M.Modal.getInstance(document.getElementById('nutrition-modal'));
+                instance.open();
+            },
             _openModal(entry)
             {
                 this.currentEntry = entry;
-                let instance = window.M.Modal.getInstance(document.getElementById('modal0'));
-                instance.open();
+                {
+                    let instance = window.M.Modal.getInstance(document.getElementById('modal' + entry.id));
+                    instance.open();
+                }
             },
-            __convertUnits(value, unit)
+            __convertUnits(value, unit, _to = null)
             {
                 let weightUnits = ['kg', 'g', 'mg'];
                 let volumeUnits = ['l', 'ml'];
@@ -775,17 +1055,48 @@
                     units = volumeUnits;
                 }
 
-                while (value < 1 && unitIndex < units.length)
+                if(_to === null)
                 {
-                    unitIndex++;
-                    value *= 1000;
-                    unit = units[unitIndex];
+                    while (value < 1 && unitIndex < units.length - 1)
+                    {
+                        unitIndex++;
+                        value *= 1000;
+                        unit = units[unitIndex];
+                    }
+                }
+                else
+                {
+                    let from_index = unitIndex;
+                    let to_index = units.indexOf(_to);
+
+                    if(from_index < to_index)
+                    {
+                        while (from_index < to_index)
+                        {
+                            from_index++;
+                            value *= 1000;
+                            unit = units[from_index];
+                        }
+                    }
+                    else if(from_index > to_index)
+                    {
+                        while (from_index > to_index)
+                        {
+                            from_index--;
+                            value /= 1000;
+                            unit = units[from_index];
+                        }
+                    }
                 }
                 return { value: parseFloat(value.toFixed(1)), unit: unit };
             },
         },
         mounted() {
             const self = this;
+
+            {
+                window.M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
+            }
 
             //
             {
@@ -794,6 +1105,69 @@
 
             {
                 window.M.FormSelect.init(document.querySelectorAll('select'), {});
+            }
+
+            {
+                let nutrition_ranges = [];
+                this.recipes.forEach(function (recipe, key) {
+                    let summary = self.getNutritionSummary(recipe);
+                    self.recipes[key]._nutrition_summary = summary;
+                    self.recipes[key]._shopping_list = self.getShoppingList(recipe);
+                    for(let key in Object.keys(summary))
+                    {
+                        if(typeof summary[key] === 'undefined')
+                        {
+                            continue;
+                        }
+                        if(typeof nutrition_ranges[key] === 'undefined')
+                        {
+                            nutrition_ranges[key] = [Number.MAX_VALUE, Number.MIN_VALUE];
+                        }
+                        nutrition_ranges[key][0] = Math.min(summary[key]._raw_kg_value, nutrition_ranges[key][0]);
+                        nutrition_ranges[key][1] = Math.max(summary[key]._raw_kg_value, nutrition_ranges[key][1]);
+
+                    }
+                });
+
+                nutrition_ranges.forEach(function (value, key) {
+                    let min_result = self.__convertUnits(value[0], 'kg');
+                    let max_result = self.__convertUnits(value[1], 'kg', min_result.unit);
+
+
+
+                    nutrition_ranges[key][0] = min_result.value;
+                    nutrition_ranges[key][1] = max_result.value;
+                    nutrition_ranges[key][2] = min_result.unit;
+
+                });
+                this.nutrition.forEach(function (nutrition, key) {
+                    if(typeof nutrition_ranges[nutrition.id] === 'undefined')
+                    {
+                        return;
+                    }
+
+                    self.nutrition[key].unit = nutrition_ranges[nutrition.id][2];
+                    let slider = document.getElementById('nutrition-slider-' + nutrition.id);
+                    window.noUiSlider.create(slider, {
+                        start: [nutrition_ranges[nutrition.id][0], nutrition_ranges[nutrition.id][1]],
+                        connect: true,
+                        step: 0.1,
+                        orientation: 'horizontal', // 'horizontal' or 'vertical'
+                        range: {
+                            'min': nutrition_ranges[nutrition.id][0],
+                            'max': nutrition_ranges[nutrition.id][1]
+                        },
+                        format: wNumb({
+                            decimals: 1
+                        }),
+                        // Show a scale with the slider
+                    });
+                    slider.noUiSlider.on('set', function( values, handle ) {
+                        self.filters.nutrition[nutrition.id] = [parseFloat(values[0]), parseFloat(values[1])];
+                        self.stupid_fix++;
+                    });
+
+                });
             }
 
             let x = setInterval(function() {
@@ -828,6 +1202,18 @@
             }, 1000);
         },
         computed: {
+            _current_recipe_progress() {
+                if(this.currentEntry === null)
+                {
+                    return 0;
+                }
+
+                let counter = 1;
+                this.currentEntry.recipe.steps.forEach((function (value) {
+                    counter += value.length;
+                }));
+                return (this.currentEntry.state.step_counter / counter) * 100;
+            },
             _markers() {
                 if(this.currentEntry === null)
                 {
@@ -840,6 +1226,35 @@
                     return 0;
                 });
                 return this.currentEntry.state.alarm.list;
+            },
+            _filtered_recipes: function () {
+                const self = this;
+                this.stupid_fix--;
+
+                return this.recipes.filter(function (value) {
+                    if(self.filters.search_text.trim() !== '' && value.recipe.name.toLowerCase().indexOf(self.filters.search_text.toLowerCase()) === -1)
+                    {
+                        return false;
+                    }
+
+                    let f = 1;
+                    f &= (value.properties.dietary_preference >= parseInt(self.filters.dietary_preference));
+                    f &= (self.filters.season === -1 || value.properties.season.includes(parseInt(self.filters.season)));
+
+                    for(let key in self.filters.nutrition)
+                    {
+                        if(self.filters.nutrition.hasOwnProperty(key) && value._nutrition_summary.hasOwnProperty(key))
+                        {
+                            f &= (value._nutrition_summary[key].value >= self.filters.nutrition[key][0] && value._nutrition_summary[key].value <= self.filters.nutrition[key][1]);
+                            if(f === 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    return f === 1;
+                });
             }
         }
     }

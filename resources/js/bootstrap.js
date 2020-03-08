@@ -1,6 +1,7 @@
 window._ = require('lodash');
 window.Vue = require('vue');
 window.M = require('materialize-css/dist/js/materialize');
+window.noUiSlider = require('materialize-css/extras/noUiSlider/nouislider');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
