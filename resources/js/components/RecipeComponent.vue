@@ -15,8 +15,8 @@
                     <div class="input-field col s4">
                         <select class="icons" v-model.number="filters.dietary_preference">
                             <option value="-1">All</option>
-                            <option value="0">Pescetarian</option>
-                            <option value="1">Omnivore</option>
+                            <option value="0">Omnivore</option>
+                            <option value="1">Pescetarian</option>
                             <option value="2">Vegetarian</option>
                             <option value="3">Vegan</option>
                         </select>
@@ -216,6 +216,11 @@
                         id: 9,
                         name: "Potassium",
                         unit: "NaN",
+                    },
+                    {
+                        id: 10,
+                        name: "Trans Fat",
+                        unit: "NaN"
                     },
                     {
                         id: 11,
@@ -844,7 +849,159 @@
                                 value: 0.19
                             }
                         ],
-                    }
+                    },
+                    {
+                        id: 15,
+                        name: "Red Onions",
+                        nutrition: [
+                            {
+                                id: 0,
+                                value: 0.00042
+                            },
+                            {
+                                id: 1,
+                                value: 0.00017
+                            },
+                            {
+                                id: 2,
+                                value: 0.00013
+                            },
+                            {
+                                id: 3,
+                                value: 0.0008
+                            },
+                            {
+                                id: 4,
+                                value: 0.00054
+                            },
+                            {
+                                id: 5,
+                                value: 0.017
+                            },
+                            {
+                                id: 6,
+                                value: 0.0424
+                            },
+                            {
+                                id: 7,
+                                value: 0.24
+                            },
+                            {
+                                id: 8,
+                                value: 0.00012
+                            },
+                            {
+                                id: 9,
+                                value: 0.0026
+                            },
+                        ]
+                    },
+                    {
+                        id: 16,
+                        name: "Tomahawk Ribeye",
+                        nutrition: [
+                            {
+                                id: 0,
+                                value: 0.1
+                            },
+                            {
+                                id: 1,
+                                value: 0.01
+                            },
+                            {
+                                id: 2,
+                                value: 0.110
+                            },
+                            {
+                                id: 4,
+                                value: 0.00006
+                            },
+                            {
+                                id: 5,
+                                value: 0.022
+                            },
+                            {
+                                id: 6,
+                                value: 0.008
+                            },
+                            {
+                                id: 7,
+                                value: 0.02
+                            },
+                            {
+                                id: 9,
+                                value: 0.00421
+                            },
+                            {
+                                id: 10,
+                                value: 0.015
+                            }
+                        ],
+                        "environment": [
+                            {
+                                id: 0,
+                                value: 100
+                            },
+                            {
+                                id: 1,
+                                value: 20000
+                            },
+                            {
+                                id: 2,
+                                value: 36.4
+                            }
+                        ]
+                    },
+                    {
+                        id: 17,
+                        name: "Vegetable Oil"
+                    },
+                    {
+                        id: 18,
+                        name: "Glove of Garlic"
+                    },
+                    {
+                        id: 19,
+                        name: "Spring of Rosemary"
+                    },
+                    {
+                        id: 20,
+                        name: "Potato",
+                        nutrition: [
+                            {
+                                id: 0,
+                                value: 0.0009
+                            },
+                            {
+                                id: 1,
+                                value: 0.0003
+                            },
+                            {
+                                id: 2,
+                                value: 0.00009
+                            },
+                            {
+                                id: 4,
+                                value: 0.00006
+                            },
+                            {
+                                id: 5,
+                                value: 0.022
+                            },
+                            {
+                                id: 6,
+                                value: 0.008
+                            },
+                            {
+                                id: 7,
+                                value: 0.02
+                            },
+                            {
+                                id: 9,
+                                value: 0.00421
+                            }
+                        ],
+                    },
                 ],
                 recipes: [
                     {
@@ -1035,7 +1192,7 @@
                                         "ingredients": [
                                             { "id": 11, "value": 0.1, "unit": "kg" }
                                         ],
-                                        "description": "Take the dutch oven out of the oven (be careful, it is extremely hot at this point), and flour the bottom of the pot. Now place your dough in it, and scare the" +
+                                        "description": "Take the dutch oven out of the oven (be careful, it is extremely hot at this point), and flour the bottom of the pot. Now place your dough in it, and scar the" +
                                             " top of the bread at a 45° angle with a very sharp blade along the top of the bread.",
                                     },
                                     {
@@ -1056,7 +1213,153 @@
                                 ]
                             ],
                         }
+                    },
+                    {
+                        id: 2,
+                        "cover": "images/recipes/2/cover.jpg",
+                        properties: {
+                            dietary_preference: 0,
+                            season: [0,1,2,3],
+                        },
+                        state: {
+                            step_counter: 0,
+                            current_step: 0,
+                            current_insider: 0,
+                            tab: {
+                                index: 0
+                            },
+                            alarm: {
+                                last_update: 0,
+                                list: []
+                            }
+                        },
+                        recipe: {
+                            "name": "Tomahawk Ribeye Steak",
+                            "finished": {
+                                "description": "Congratulations! - You just made the queens of steak.",
+                                "image": "images/recipes/2/finished.jpg",
+                            },
+                            "steps": [
+                                [
+                                    {
+                                        "ingredients": [
+                                            { "id": 16, "value": 2, "unit": "kg" },
+                                            { "id": 3, "seasoning": true },
+                                            { "id": 4, "seasoning": true },
+                                        ],
+                                        "description": "Start by placing the steak steak on a baking sheet and season it heavily with salt and pepper on both sides," +
+                                            " and let it come to room temperature before cooking for around 30 minutes.",
+                                        "marker": {
+                                            "time": 1800
+                                        }
+                                    },
+                                ],
+                                [
+                                    {
+                                        "ingredients": [],
+                                        "description": "Place the steak on a rack in an oven at 110°C for about 45 minutes until it" +
+                                            " registers 115°C internally.",
+                                        "marker": {
+                                            "time": 1800
+                                        }
+                                    },
+                                ],
+                                [
+
+                                    {
+                                        "ingredients": [
+                                            { "id": 20, "value": 0.25, "unit": "kg" },
+                                        ],
+                                        "description": "Place the potatoes in a pot, cover with water and let them cook until they are done.",
+                                        "marker": {
+                                            "time": 1200
+                                        }
+                                    },
+                                    {
+                                        "ingredients": [],
+                                        "description": "Let them cool for a bit so that you can handle them. Then place them on a cutting board," +
+                                            " and cut them into mouth-sized pieces, or ideally if you have small potatoes just cut them in half."
+                                    },
+                                    {
+                                        "ingredients": [
+                                            { "id": 15, "value": 0.1, "unit": "kg" },
+                                            { "id": 15, "value": 0.02, "unit": "l" }
+                                        ],
+                                        "description": "Bring a ban up to heat and put some vegetable oil into it. Mince an onion and " +
+                                            " it with the potatoes to the pan. Let them fry until the potatoes become golden brown."
+                                    },
+                                ],
+                                [
+                                    {
+                                        "ingredients": [
+                                            { "id": 17, "value": 0.02, "unit": "l" }
+                                        ],
+                                        "description": "Get some vegetable oil smoking in a cast iron or stainless steel skillet and " +
+                                            "place the steak in it and sear until completely crusted on on site (~1.5 - 2 minutes). Once" +
+                                            " you have made sure that the crust is good flip it over.",
+                                        "marker": {
+                                            "time": 120
+                                        }
+                                    },
+                                ],
+                                [
+                                    {
+                                        "ingredients": [
+                                            {"id": 17, "value": 0.04, "unit": "kg"},
+                                            {"id": 18, "value": 1},
+                                            {"id": 19, "value": 1}
+                                        ],
+                                        "description": "Add the butter, peeled glove of garlic, and the sprig of rosemary to the pan. After" +
+                                            " around 1.5 to 2 minutes flip the steak over again after making sure it has formed a crust on the other side.",
+                                        "marker": {
+                                            "time": 120
+                                        }
+                                    },
+                                    {
+                                        "ingredients": [
+                                        ],
+                                        "description": "Continue butter basting the other side for another 90 seconds.",
+                                        "marker": {
+                                            "time": 90
+                                        }
+                                    },
+                                ],
+                                [
+                                    {
+                                        "ingredients": [
+                                        ],
+                                        "description": "Now sear all the rendered fat on the side of the steak until the fat turns" +
+                                            " golden brown and crisp. ",
+                                        "marker": {
+                                        }
+                                    },
+                                ],
+                                [
+                                    {
+                                        "ingredients": [
+                                            { id: 18, value: 2 },
+                                            { id: 19, value: 1 }
+                                        ],
+                                        "description": "Take the steak out of the pan and place it on a cutting board where you can add" +
+                                            " roasted garlic and other herbs, and cover it with aluminum foil. Let it rest for roughly 5" +
+                                            " minutes.",
+                                        "marker": {
+                                            "timer": 300
+                                        }
+                                    },
+                                    {
+                                        "ingredients": [
+                                        ],
+                                        "description": "Now remove the cover and herbs and run a chef's or carving knife along the side" +
+                                            " of the bone to remove it from the steak.",
+                                        "marker": {
+                                        }
+                                    },
+                                ]
+                            ],
+                        }
                     }
+
                 ]
             }
         },
