@@ -1258,7 +1258,7 @@
                                     {
                                         "ingredients": [],
                                         "description": "Place the steak on a rack in an oven at 110°C for about 45 minutes until it" +
-                                            " registers 115°C internally.",
+                                            " registers 45°C internally.",
                                         "marker": {
                                             "time": 1800
                                         }
