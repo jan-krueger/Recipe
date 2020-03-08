@@ -53,8 +53,8 @@
                 <div class="col s4" v-for="entry in _filtered_recipes">
                     <div class="card">
                         <div class="card-image">
-                            <img class="layer" src="https://static01.nyt.com/images/2017/11/08/dining/08COOKING-POTATO2/08COOKING-POTATO2-articleLarge-v2.jpg">
-                            <span class="card-title">{{ entry.recipe.name }}</span>
+                            <img :src="entry.cover" class="responsive-img filter-blur-2">
+                            <span class="card-title ">{{ entry.recipe.name }}</span>
                             <a class="waves-effect waves-light btn-floating right-aligned halfway-fab" @click="_openModal(entry)">
                                 <i class="fa fa-cookie"></i>
                             </a>
@@ -330,7 +330,7 @@
                     },
                     {
                         "id": 3,
-                        "name": "Salz",
+                        "name": "Salt",
                         "nutrition": [
                             {
                                 id: 4,
@@ -568,11 +568,91 @@
                             },
 
                         ]
+                    },
+                    {
+                        id: 11,
+                        name: "Whole Wheat Flour",
+                        nutrition: [
+                            {
+                                id: 5,
+                                value: 0.1204,
+                            },
+                            {
+                                id: 6,
+                                value: 0.015
+                            },
+                            {
+                                id: 7,
+                                value: 0.1204
+                            },
+                            {
+                                id: 9,
+                                value: 0.003912
+                            },
+                            {
+                                id: 11,
+                                value: 0.000032
+                            }
+                        ]
+                    },
+                    {
+                        id: 12,
+                        name: "Sourdough Starter",
+                        nutrition: [
+                            {
+                                id: 5,
+                                value: 0.0602,
+                            },
+                            {
+                                id: 6,
+                                value: 0.008
+                            },
+                            {
+                                id: 7,
+                                value: 0.0602
+                            },
+                            {
+                                id: 9,
+                                value: 0.001965
+                            },
+                            {
+                                id: 11,
+                                value: 0.000016
+                            }
+                        ]
+                    },
+                    {id: 13, name: "Water"},
+                    {
+                        id: 14,
+                        name: "Nut Mix",
+                        nutrition: [
+                            {
+                                id: 0,
+                                value: 0.055
+                            },
+                            {
+                                id: 1,
+                                value: 0.25
+                            },
+                            {
+                                id: 5,
+                                value: 0.11
+                            },
+                            {
+                                id: 6,
+                                value: 0.240
+                            },
+                            {
+                                id: 7,
+                                value: 0.19
+                            }
+                        ],
                     }
                 ],
                 recipes: [
                     {
                         id: 0,
+                        "cover": "images/recipes/0/cover.jpg",
                         properties: {
                             dietary_preference: 2,
                             season: [2,3],
@@ -592,7 +672,7 @@
                         recipe: {
                             "name": "Süsskartoffel-Auflauf mit Pilzen und Lauch",
                             "finished": {
-                                "description": "You did it! - We highly recommend enjoying this food with some high-quality peach juice.",
+                                "description": "You did it! - We highly recommend enjoying this food with some high-quality pear juice.",
                                 "image": "images/recipes/0/finished.jpg",
                             },
                             "steps": [
@@ -684,9 +764,10 @@
                     },
                     {
                         id: 1,
+                        "cover": "images/recipes/1/cover.jpg",
                         properties: {
-                            dietary_preference: 2,
-                            season: [2,3],
+                            dietary_preference: 3,
+                            season: [0,1,2,3],
                         },
                         state: {
                             step_counter: 0,
@@ -701,96 +782,82 @@
                             }
                         },
                         recipe: {
-                            "name": "Süsskartoffel-Auflauf mit Pilzen und Lauch 2",
+                            "name": "Sourdough Whole Grain Bread",
                             "finished": {
-                                "description": "You did it! - We highly recommend enjoying this food with some high-quality peach juice.",
+                                "description": "Perfection! - This type of bread goes with basically everything, and can even be enjoyed on its own.",
                                 "image": "images/recipes/0/finished.jpg",
                             },
                             "steps": [
                                 [
                                     {
                                         "ingredients": [
-                                            { "id": 0, "value": 1.2, "unit": "kg" }
+                                            { "id": 3, "value": 0.02, "unit": "kg" },
+                                            { "id": 11, "value": 0.4, "unit": "kg" },
+                                            { "id": 12, "value": 0.2, "unit": "kg" },
+                                            { "id": 13, "value": 0.260, "unit": "l" },
                                         ],
-                                        "description": "Die Süßkartoffeln schälen, halbieren und in dünne Scheiben schneiden.",
-                                        "image": "images/recipes/0/0.jpg"
-                                    },
-                                    {
-                                        "ingredients": [
-                                            { "id": 1, "value": 0.8, "unit": "kg" },
-                                            { "id": 2, "value": 0.4, "unit": "l" },
-                                            { "id": 3, "seasoning": true },
-                                            { "id": 4, "seasoning": true },
-                                            { "id": 5, "value": 6 }
-                                        ],
-                                        "description": "Creme double in einen großen Topf mit der Gemüsebrühe aufkochen, mit Salz und Pfeffer würzen und Thymianzweige zugeben.",
-                                        "image": "images/recipes/0/1.jpg"
+                                        "description": "Mix the flour, sourdough starter, tepid water and the salt with a fork as well as you can. Knead the dough on a floured work-surface for 8 - 10 minutes until the window test yields positive results.",
+                                        "marker": {
+                                            "time":  480
+                                        }
                                     },
                                     {
                                         "ingredients": [],
-                                        "description": "Den Topf vom Herd nehmen, die Süßkartoffelscheiben zugeben und mit geschlossenem Deckel in der Flüssigkeit ziehen lassen.",
+                                        "description": "Place your dough in a floured bowl and let it rest for 3 hours, and cover it with a tea towel.",
                                         "marker": {
-                                            "notice": true,
-                                            "time": 150
-                                        },
-                                        "image": "images/recipes/0/2.jpg"
-                                    }
+                                            "time": 10800
+                                        }
+                                    },
                                 ],
                                 [
                                     {
                                         "ingredients": [
-                                            { "id": 5, "value": 3 },
-                                            { "id": 6, "value": 0.5, "unit": "kg" },
-                                            { "id": 7, "value": 0.5, "unit": "kg" }
+                                            { "id": 14, "value": 0.5, "unit": "kg" },
                                         ],
-                                        "description": "Pilze und Lauch putzen und in Scheiben schneiden. Die Blättchen von den übrigen Thymianzweigen abzupfen.",
-                                        "image": "images/recipes/0/3.jpg"
+                                        "description": "Put the dough on a floured work-surface and knead in the nut mix.",
                                     },
                                     {
-                                        "ingredients": [
-                                            { "id": 8, "value": 0.022, "unit": "kg" },
-                                            { "id": 9, "value": 0.024, "unit": "kg" },
-                                            { "id": 3, "seasoning": true },
-                                            { "id": 4, "seasoning": true }
-                                        ],
-                                        "description": "Olivenöl und Butter in einer großen Pfanne erhitzen. Die Pilze darin ca. 5 Minuten anbraten.",
+                                        "ingredients": [],
+                                        "description": "Form a ball out of your dough and place it in a floured bread basket for an additional 3 hours of reset, and cover it with a tea towel. ",
                                         "marker": {
-                                            "time": 120
+                                            "time": 10800
                                         }
                                     },
                                     {
                                         "ingredients": [
-                                            { "id": 3, "seasoning": true },
-                                            { "id": 4, "seasoning": true }
+                                            { "id": 13, "value": 0.15, "unit": "l" }
                                         ],
-                                        "description": "Mit Salz und Pfeffer würzen und den Thymianblättchen und dem Lauch vermengen.",
-                                        "image": "images/recipes/0/4.jpg"
+                                        "description": "Place your dutch oven with its lid in the oven and preheat it to 250°C. Additionally, place a container with some water in the bottom of the oven.",
+                                        "marker": {
+                                            "time": 7200
+                                        }
                                     }
                                 ],
                                 [
                                     {
+                                        "ingredients": [
+                                            { "id": 11, "value": 0.1, "unit": "kg" }
+                                        ],
+                                        "description": "Take the dutch oven out of the oven (be careful, it is extremely hot at this point), and flour the bottom of the pot. Now place your dough in it, and scare the" +
+                                            " top of the bread at a 45° angle with a very sharp blade along the top of the bread.",
+                                    },
+                                    {
                                         "ingredients": [],
-                                        "description": "Den Backofen auf 190°C vorheizen."
+                                        "description": "Put the lid back on and place it in the oven for at least 30 minutes.",
+                                        "marker": {
+                                            time: 1800
+                                        }
                                     },
                                     {
                                         "ingredients": [
-                                            { "id": 3, "seasoning": true },
-                                            { "id": 4, "seasoning": true },
-                                            { "id": 10, "value": 0.16, "unit": "kg" }
                                         ],
-                                        "description": "Abwechselnd die Süßkartoffeln mit der Pilz-Lauch-Mischung in eine große Auflafform einschichten. Mit Salz und Pfeffer würzen, die übrige Flüssigkeit darübergießen und mit dem Parmesan bestreuen."
-                                    }
-                                ],
-                                [
-                                    {
-                                        "ingredients": [],
-                                        "description": "Die Form in den Ofen stellen und den Auflag in ca. 30 - 40 Minuten (je nach Dicke der Süßkartoffelscheiben) garen. Wer mag, schaltet zum Schluss die Grullfunktion zu, bs die Oberfläche goldbraun und knusprig ist.",
-                                        "marker":{
-                                            "time": 1800
+                                        "description": "Carefully remove the pod of the lid and let it bake for another 15 minutes.",
+                                        "marker": {
+                                            time: 900
                                         }
                                     }
                                 ]
-                            ]
+                            ],
                         }
                     }
                 ]
@@ -950,7 +1017,7 @@
                             }
                             else
                             {
-                                list[i.id] = i;
+                                list[i.id] = Object.assign({}, i);
                             }
                         });
                     })
@@ -1140,10 +1207,18 @@
                     nutrition_ranges[key][2] = min_result.unit;
 
                 });
+                console.log(nutrition_ranges);
+
                 this.nutrition.forEach(function (nutrition, key) {
                     if(typeof nutrition_ranges[nutrition.id] === 'undefined')
                     {
                         return;
+                    }
+
+                    if(nutrition_ranges[nutrition.id][0] === nutrition_ranges[nutrition.id][1])
+                    {
+                        nutrition_ranges[nutrition.id][0] *= 0.2;
+                        nutrition_ranges[nutrition.id][1] *= 1.2;
                     }
 
                     self.nutrition[key].unit = nutrition_ranges[nutrition.id][2];
