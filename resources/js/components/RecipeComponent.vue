@@ -1377,7 +1377,7 @@
                         while (from_index < to_index)
                         {
                             from_index++;
-                            value *= 1000;
+                            value *= 1000.0;
                             unit = units[from_index];
                         }
                     }
@@ -1386,7 +1386,7 @@
                         while (from_index > to_index)
                         {
                             from_index--;
-                            value /= 1000;
+                            value /= 1000.0;
                             unit = units[from_index];
                         }
                     }
@@ -1556,7 +1556,12 @@
                     {
                         if(self.filters.nutrition.hasOwnProperty(key) && value._nutrition_summary.hasOwnProperty(key))
                         {
-                            f &= (value._nutrition_summary[key].value >= self.filters.nutrition[key][0] && value._nutrition_summary[key].value <= self.filters.nutrition[key][1]);
+                            let content = value._nutrition_summary[key];
+
+                            let filter_unit = self.getNutrition(key).unit;
+                            let _v = self.__convertUnits(content._raw_kg_value, 'kg', filter_unit).value;
+
+                            f &= (_v >= self.filters.nutrition[key][0] && _v <= self.filters.nutrition[key][1]);
                             if(f === 0)
                             {
                                 break;
