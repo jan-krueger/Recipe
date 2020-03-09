@@ -1139,7 +1139,7 @@
                             "name": "Sourdough Whole Grain Bread",
                             "finished": {
                                 "description": "Perfection! - This type of bread goes with basically everything, and can even be enjoyed on its own.",
-                                "image": "images/recipes/0/finished.jpg",
+                                "image": "images/recipes/1/finished.jpg",
                             },
                             "steps": [
                                 [
@@ -1356,6 +1356,80 @@
                                         }
                                     },
                                 ]
+                            ],
+                        }
+                    },
+                    {
+                        id: 3,
+                        "cover": "images/recipes/3/cover.jpg",
+                        properties: {
+                            dietary_preference: 3,
+                            season: [0,1,2,3],
+                        },
+                        state: {
+                            step_counter: 0,
+                            current_step: 0,
+                            current_insider: 0,
+                            tab: {
+                                index: 0
+                            },
+                            alarm: {
+                                last_update: 0,
+                                list: []
+                            }
+                        },
+                        recipe: {
+                            "name": "Chili Sin Carne",
+                            "finished": {
+                                "description": "Congratulations! - You just made the queens of steak.",
+                                "image": "images/recipes/2/finished.jpg",
+                            },
+                            "steps": [
+                                [
+                                    {
+                                        "ingredients": [],
+                                        "description": "Pre-heat the oven to 220°C.",
+                                        "marker": {}
+                                    },
+                                    {
+                                        "ingredients": [
+                                            // tomatoes, garlic, salt, pepper corns, olive oil
+                                        ],
+                                        "description": "Cut the tomatoes in half and place them in a baking pan, add the gloves of peeled garlic," +
+                                            " black pepper corns, salt, and drizzle olive oil over it. Place it in the oven" +
+                                            " for 30 - 40 minutes.",
+                                        "marker": {
+                                            "time": 1800
+                                        }
+                                    },
+                                    {
+                                        "ingredients": [
+                                            //3 gemüsezwiebel, 6 paprikas, 2 zuchhini, 2 leek
+                                        ],
+                                        "description": "Mince the onions.",
+                                        "marker": {}
+                                    },
+                                    {
+                                        "ingredients": [
+                                            //mince 600g pickeled jalapeneos & 2 chillies, and prepare 680g mais
+                                        ],
+                                        "description": "Mince the onions.",
+                                        "marker": {}
+                                    },
+                                    {
+                                        "ingredients": [],
+                                        "description": "After removing the tomatoes from the oven, remove any burned gloves of garlic " +
+                                            " and blend the remaining parts in a bowl together.",
+                                        "marker": {}
+                                    },
+                                    {
+                                        "ingredients": [
+                                            // 1 apfel
+                                        ],
+                                        "description": "Peel one apple and grate it.",
+                                        "marker": {}
+                                    }
+                                ],
                             ],
                         }
                     }
