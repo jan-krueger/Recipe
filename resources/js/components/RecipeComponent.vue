@@ -157,6 +157,7 @@
         name: "Recipe",
         data: function () {
             return {
+                logging: null,
                 stupid_fix: 0,
 
                 filters: {
@@ -1438,12 +1439,32 @@
             }
         },
         methods: {
+            log(entry)
+            {
+                entry._timestamp = (new Date()).getTime();
+                this.logging.data.push(entry);
+            },
+            closingHandler()
+            {
+                if(Vue.$cookies.isKey('_experiment_id'))
+                {
+                    const self = this;
+                    axios.post('/experiment/save/' + Vue.$cookies.get('_experiment_id'), {
+                        data: self.logging
+                    })
+                        .then(function (response) {
+                            console.log(response);
+                        })
+                }
+            },
             getCurrentStep()
             {
                 return this.currentEntry.recipe.steps[this.currentEntry.state.current_step][this.currentEntry.state.current_insider];
             },
             setState(step, insider)
             {
+                this.log({action: 'click_alarm', current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                                                    next_step: step, next_insider: insider});
                 this.currentEntry.state.current_step = step;
                 this.currentEntry.state.current_insider = insider;
             },
@@ -1454,12 +1475,16 @@
                 if(this.currentEntry.state.tab.index === 0)
                 {
                     this.currentEntry.state.tab.index = 1;
+                    this.log({action: 'next_step', current_tab: 0, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 1, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                     return;
                 }
                 else if(this.currentEntry.state.tab.index === 1)
                 {
                     this.currentEntry.state.step_counter++;
                     this.currentEntry.state.tab.index = 2;
+                    this.log({action: 'next_step', current_tab: 1, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                     return;
                 }
                 else if(this.currentEntry.state.tab.index === 2)
@@ -1468,6 +1493,8 @@
                         if (this.currentEntry.state.current_step === this.currentEntry.recipe.steps.length - 1) {
                             this.currentEntry.state.step_counter++;
                             this.currentEntry.state.tab.index = 3;
+                            this.log({action: 'next_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                                next_tab: 3, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                             return;
                         }
                     }
@@ -1498,11 +1525,15 @@
                     {
                         return;
                     }
+                    this.log({action: 'next_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step + 1, next_insider: 0});
                     this.currentEntry.state.current_step++;
                     this.currentEntry.state.current_insider = 0;
                 }
                 else
                 {
+                    this.log({action: 'next_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider + 1});
                     this.currentEntry.state.current_insider++;
                 }
 
@@ -1518,6 +1549,8 @@
                 }
                 else if(this.currentEntry.state.tab.index === 1)
                 {
+                    this.log({action: 'prev_step', current_tab: 1, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 0, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                     this.currentEntry.state.tab.index = 0;
                     return;
                 }
@@ -1525,6 +1558,8 @@
                 {
                     if(this.currentEntry.state.current_insider === 0) {
                         if (this.currentEntry.state.current_step === 0) {
+                            this.log({action: 'prev_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                                next_tab: 1, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                             this.currentEntry.state.step_counter--;
                             this.currentEntry.state.tab.index = 1;
                             return;
@@ -1533,6 +1568,8 @@
                 }
                 else if(this.currentEntry.state.tab.index === 3)
                 {
+                    this.log({action: 'prev_step', current_tab: 3, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider});
                     this.currentEntry.state.step_counter--;
                     this.currentEntry.state.tab.index = 2;
                     return;
@@ -1544,11 +1581,15 @@
                     {
                         return;
                     }
+                    this.log({action: 'prev_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step - 1, next_insider:  this.currentEntry.recipe.steps[this.currentEntry.state.current_step].length - 1});
                     this.currentEntry.state.current_step--;
                     this.currentEntry.state.current_insider = this.currentEntry.recipe.steps[this.currentEntry.state.current_step].length - 1;
                 }
                 else
                 {
+                    this.log({action: 'prev_step', current_tab: 2, current_step: this.currentEntry.state.current_step, current_insider: this.currentEntry.state.current_insider,
+                        next_tab: 2, next_step: this.currentEntry.state.current_step, next_insider: this.currentEntry.state.current_insider - 1});
                     this.currentEntry.state.current_insider--;
                 }
                 this.currentEntry.state.step_counter--;
@@ -1702,15 +1743,11 @@
                     return '<i class="fa fa-pepper-hot"></i>'
                 }
             },
-            _openNutritionModal()
-            {
-                let instance = window.M.Modal.getInstance(document.getElementById('nutrition-modal'));
-                instance.open();
-            },
             _openModal(entry)
             {
                 this.currentEntry = entry;
                 {
+                    this.log({action: 'open_recipe', id: entry.id});
                     let instance = window.M.Modal.getInstance(document.getElementById('modal' + entry.id));
                     instance.open();
                 }
@@ -1775,6 +1812,17 @@
             const self = this;
 
             {
+                this.logging = {
+                    id: Vue.$cookies.get('_experiment_id'),
+                    skill: Vue.$cookies.get('_skill'),
+                    data: []
+                };
+                window.addEventListener('beforeunload', function (e) {
+                    self.closingHandler();
+                });
+            }
+
+            {
                 window.M.Collapsible.init(document.querySelectorAll('.collapsible'), {});
             }
 
@@ -1820,7 +1868,6 @@
                     nutrition_ranges[key][2] = min_result.unit;
 
                 });
-                console.log(nutrition_ranges);
 
                 this.nutrition.forEach(function (nutrition, key) {
                     if(typeof nutrition_ranges[nutrition.id] === 'undefined')

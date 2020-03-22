@@ -12,6 +12,7 @@
     </head>
     <body>
         <div id="app">
+            <experiment-component></experiment-component>
             <recipe-component></recipe-component>
         </div>
     </body>

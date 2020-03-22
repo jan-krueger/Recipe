@@ -2,6 +2,8 @@ window._ = require('lodash');
 window.Vue = require('vue');
 window.M = require('materialize-css/dist/js/materialize');
 window.noUiSlider = require('materialize-css/extras/noUiSlider/nouislider');
+window.$ = require('jquery');
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -30,8 +32,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+Vue.use(require('vue-cookies'));
 
 Vue.component('recipe-component', require('./components/RecipeComponent').default);
+Vue.component('experiment-component', require('./components/ExperimentComponent').default);
+
+Vue.$cookies.config('7d');
 
 
 const app = new Vue({
